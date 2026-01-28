@@ -496,6 +496,231 @@
   }
 
   /* ───────────────────────────────────────────────
+     SAMPLE/PREVIEW SECTION
+     ─────────────────────────────────────────────── */
+  .samples-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-3xl) var(--space-lg);
+    border-top: 1px solid rgba(184, 173, 148, 0.06);
+  }
+
+  .samples-label {
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-align: center;
+    margin-bottom: var(--space-xl);
+  }
+
+  .samples-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+  }
+
+  @media (max-width: 800px) {
+    .samples-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .sample-card {
+    background: var(--panel);
+    border: 1px dashed rgba(184, 148, 63, 0.3);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .sample-thumbnail {
+    aspect-ratio: 16/9;
+    background: rgba(184, 148, 63, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+  }
+
+  .sample-info {
+    padding: var(--space-md);
+  }
+
+  .sample-title {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: var(--space-xs);
+  }
+
+  .sample-meta {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--muted);
+  }
+
+  /* ───────────────────────────────────────────────
+     SOCIAL PROOF
+     ─────────────────────────────────────────────── */
+  .social-proof-section {
+    padding: var(--space-2xl) var(--space-lg);
+    text-align: center;
+    border-top: 1px solid rgba(184, 173, 148, 0.06);
+  }
+
+  .social-proof-label {
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: var(--space-lg);
+  }
+
+  .social-proof-channels {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-xl);
+    flex-wrap: wrap;
+  }
+
+  .channel-placeholder {
+    width: 100px;
+    height: 40px;
+    background: rgba(184, 148, 63, 0.08);
+    border: 1px dashed rgba(184, 148, 63, 0.3);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--muted);
+  }
+
+  .social-proof-stat {
+    margin-top: var(--space-xl);
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  .social-proof-stat strong {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* ───────────────────────────────────────────────
+     FAQ SECTION
+     ─────────────────────────────────────────────── */
+  .faq-section {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--space-3xl) var(--space-lg);
+    border-top: 1px solid rgba(184, 173, 148, 0.06);
+  }
+
+  .faq-label {
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-align: center;
+    margin-bottom: var(--space-xl);
+  }
+
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .faq-item {
+    padding: var(--space-lg);
+    background: var(--panel);
+    border: 1px dashed rgba(184, 148, 63, 0.3);
+    border-radius: 6px;
+  }
+
+  .faq-question {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: var(--space-sm);
+  }
+
+  .faq-answer {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .faq-answer.placeholder {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: rgba(184, 173, 148, 0.4);
+    font-style: italic;
+  }
+
+  /* ───────────────────────────────────────────────
+     EDITORIAL TEASER
+     ─────────────────────────────────────────────── */
+  .editorial-teaser {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-3xl) var(--space-lg);
+    border-top: 1px solid rgba(184, 173, 148, 0.06);
+  }
+
+  .editorial-teaser-inner {
+    background: var(--panel);
+    border: 1px dashed rgba(184, 148, 63, 0.3);
+    border-radius: 8px;
+    padding: var(--space-2xl);
+    text-align: center;
+  }
+
+  .editorial-badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(184, 148, 63, 0.15);
+    padding: 4px 12px;
+    border-radius: 3px;
+    margin-bottom: var(--space-lg);
+  }
+
+  .editorial-teaser h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: var(--space-md);
+  }
+
+  .editorial-teaser p {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--muted);
+    max-width: 28em;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* ───────────────────────────────────────────────
      CTA SECTION
      ─────────────────────────────────────────────── */
   .cta-section {
@@ -531,10 +756,140 @@
      ─────────────────────────────────────────────── */
   .site-footer {
     border-top: 1px solid rgba(184, 173, 148, 0.06);
-    padding: var(--space-xl) var(--space-lg);
-    text-align: center;
+    padding: var(--space-2xl) var(--space-lg) var(--space-xl);
     max-width: 1200px;
     margin: 0 auto;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    gap: var(--space-xl);
+    margin-bottom: var(--space-xl);
+    text-align: left;
+  }
+
+  @media (max-width: 700px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+  }
+
+  .footer-brand .footer-wordmark {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: var(--space-sm);
+  }
+
+  .footer-brand .footer-tagline {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-xl);
+  }
+
+  .footer-links-col h4 {
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: var(--space-md);
+  }
+
+  .footer-links-col ul {
+    list-style: none;
+  }
+
+  .footer-links-col li {
+    margin-bottom: var(--space-sm);
+  }
+
+  .footer-links-col a,
+  .footer-links-col .placeholder-link {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    color: rgba(184, 173, 148, 0.6);
+    text-decoration: none;
+  }
+
+  .footer-links-col .placeholder-link {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: rgba(184, 173, 148, 0.3);
+    border: 1px dashed rgba(184, 148, 63, 0.2);
+    padding: 2px 8px;
+    border-radius: 3px;
+  }
+
+  .footer-social {
+    text-align: right;
+  }
+
+  @media (max-width: 700px) {
+    .footer-social {
+      text-align: center;
+    }
+  }
+
+  .footer-social h4 {
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: var(--space-md);
+  }
+
+  .footer-social-icons {
+    display: flex;
+    gap: var(--space-md);
+    justify-content: flex-end;
+  }
+
+  @media (max-width: 700px) {
+    .footer-social-icons {
+      justify-content: center;
+    }
+  }
+
+  .social-icon-placeholder {
+    width: 36px;
+    height: 36px;
+    background: rgba(184, 148, 63, 0.08);
+    border: 1px dashed rgba(184, 148, 63, 0.3);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 0.5rem;
+    color: var(--muted);
+  }
+
+  .footer-bottom {
+    text-align: center;
+    padding-top: var(--space-lg);
+    border-top: 1px solid rgba(184, 173, 148, 0.06);
+  }
+
+  .footer-legal {
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    color: rgba(184, 173, 148, 0.25);
+    letter-spacing: 0.06em;
   }
 
   .footer-wordmark {
@@ -687,6 +1042,84 @@
     </div>
   </section>
 
+  <!-- SAMPLES / PREVIEW -->
+  <section class="samples-section">
+    <div class="samples-label">Featured Submissions</div>
+    <div class="samples-grid">
+      <div class="sample-card animate-on-scroll">
+        <div class="sample-thumbnail">[VIDEO THUMBNAIL]</div>
+        <div class="sample-info">
+          <div class="sample-title">Sample Clip Title</div>
+          <div class="sample-meta">@username · Game Name</div>
+        </div>
+      </div>
+      <div class="sample-card animate-on-scroll">
+        <div class="sample-thumbnail">[VIDEO THUMBNAIL]</div>
+        <div class="sample-info">
+          <div class="sample-title">Sample Clip Title</div>
+          <div class="sample-meta">@username · Game Name</div>
+        </div>
+      </div>
+      <div class="sample-card animate-on-scroll">
+        <div class="sample-thumbnail">[VIDEO THUMBNAIL]</div>
+        <div class="sample-info">
+          <div class="sample-title">Sample Clip Title</div>
+          <div class="sample-meta">@username · Game Name</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOCIAL PROOF -->
+  <section class="social-proof-section">
+    <div class="social-proof-label">As seen on</div>
+    <div class="social-proof-channels">
+      <div class="channel-placeholder">TikTok</div>
+      <div class="channel-placeholder">YouTube</div>
+      <div class="channel-placeholder">Instagram</div>
+      <div class="channel-placeholder">Twitter</div>
+    </div>
+    <div class="social-proof-stat">
+      <strong>X</strong> clips published · <strong>X</strong> creators featured
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <div class="faq-label">Frequently Asked Questions</div>
+    <div class="faq-list">
+      <div class="faq-item animate-on-scroll">
+        <div class="faq-question">What kind of clips do you accept?</div>
+        <div class="faq-answer placeholder">[Answer placeholder]</div>
+      </div>
+      <div class="faq-item animate-on-scroll">
+        <div class="faq-question">Do I keep ownership of my content?</div>
+        <div class="faq-answer placeholder">[Answer placeholder]</div>
+      </div>
+      <div class="faq-item animate-on-scroll">
+        <div class="faq-question">How does the rewards system work?</div>
+        <div class="faq-answer placeholder">[Answer placeholder]</div>
+      </div>
+      <div class="faq-item animate-on-scroll">
+        <div class="faq-question">Can I submit anonymously?</div>
+        <div class="faq-answer placeholder">[Answer placeholder]</div>
+      </div>
+      <div class="faq-item animate-on-scroll">
+        <div class="faq-question">How long until my clip is published?</div>
+        <div class="faq-answer placeholder">[Answer placeholder]</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDITORIAL TEASER -->
+  <section class="editorial-teaser">
+    <div class="editorial-teaser-inner animate-on-scroll">
+      <div class="editorial-badge">Coming Soon</div>
+      <h2>Editorial Coverage</h2>
+      <p>Long-form writing, reviews, and cultural commentary on video games and interactive media. Launching soon.</p>
+    </div>
+  </section>
+
   <!-- CTA -->
   <section class="cta-section">
     <h2 class="cta-headline animate-on-scroll">Ready when you are.</h2>
@@ -696,10 +1129,44 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
+  <!-- FOOTER (Expanded) -->
   <footer class="site-footer">
-    <div class="footer-wordmark">The Arcadia</div>
-    <div class="footer-legal">MMXXVI</div>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-wordmark">The Arcadia</div>
+        <div class="footer-tagline">Video Games & Interactive Media</div>
+      </div>
+      <div class="footer-links">
+        <div class="footer-links-col">
+          <h4>Platform</h4>
+          <ul>
+            <li><a href="about.html">About</a></li>
+            <li><span class="placeholder-link">Submit</span></li>
+            <li><span class="placeholder-link">Discord</span></li>
+          </ul>
+        </div>
+        <div class="footer-links-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><span class="placeholder-link">Terms</span></li>
+            <li><span class="placeholder-link">Privacy</span></li>
+            <li><span class="placeholder-link">Guidelines</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-social">
+        <h4>Follow</h4>
+        <div class="footer-social-icons">
+          <div class="social-icon-placeholder">TT</div>
+          <div class="social-icon-placeholder">YT</div>
+          <div class="social-icon-placeholder">IG</div>
+          <div class="social-icon-placeholder">X</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-legal">© MMXXVI The Arcadia. All rights reserved.</div>
+    </div>
   </footer>
 
   <!-- Scroll Animation Script -->
