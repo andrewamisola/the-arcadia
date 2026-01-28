@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — The Arcadia</title>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* ───────────────────────────────────────────────
+     DESIGN TOKENS
+     ─────────────────────────────────────────────── */
+  :root {
+    --bg0: #040806;
+    --bg1: #0a120e;
+    --panel: rgba(16, 30, 20, 0.6);
+    --panel-solid: #101e14;
+    --text: #f2efe6;
+    --muted: #b8ad94;
+    --accent: #b8943f;
+    --accent2: #d4b86a;
+
+    --font-display: 'Libre Bodoni', Georgia, 'Times New Roman', serif;
+    --font-body: 'Instrument Sans', -apple-system, 'Segoe UI', Helvetica, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Consolas', monospace;
+
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 2rem;
+    --space-xl: 3rem;
+    --space-2xl: 5rem;
+    --space-3xl: 8rem;
+
+    --measure: 38em;
+    --measure-wide: 52em;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-body);
+    font-weight: 400;
+    color: var(--text);
+    background: var(--bg0);
+    line-height: 1.8;
+    letter-spacing: 0.005em;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--bg0);
+  }
+
+  /* Aurora Background */
+  .aurora-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background: var(--bg0);
+    overflow: hidden;
+  }
+
+  .aurora-bg::before,
+  .aurora-bg::after {
+    content: '';
+    position: absolute;
+    width: 150%;
+    height: 150%;
+    top: -25%;
+    left: -25%;
+    background:
+      radial-gradient(ellipse 80% 50% at 20% 40%, rgba(16, 50, 30, 0.4) 0%, transparent 50%),
+      radial-gradient(ellipse 60% 40% at 80% 20%, rgba(184, 148, 63, 0.08) 0%, transparent 40%),
+      radial-gradient(ellipse 50% 60% at 60% 80%, rgba(10, 40, 25, 0.5) 0%, transparent 50%);
+    animation: aurora 25s ease-in-out infinite alternate;
+  }
+
+  .aurora-bg::after {
+    background:
+      radial-gradient(ellipse 70% 50% at 70% 60%, rgba(20, 60, 35, 0.35) 0%, transparent 50%),
+      radial-gradient(ellipse 50% 40% at 30% 70%, rgba(184, 148, 63, 0.06) 0%, transparent 40%);
+    animation: aurora 30s ease-in-out infinite alternate-reverse;
+    animation-delay: -5s;
+  }
+
+  @keyframes aurora {
+    0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+    33% { transform: translate(2%, -3%) rotate(1deg) scale(1.02); }
+    66% { transform: translate(-2%, 2%) rotate(-1deg) scale(0.98); }
+    100% { transform: translate(1%, -1%) rotate(0.5deg) scale(1.01); }
+  }
+
+  /* Film Grain */
+  .grain-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+  }
+
+  /* Navigation */
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(4, 8, 6, 0.7);
+    backdrop-filter: blur(20px) saturate(1.2);
+    -webkit-backdrop-filter: blur(20px) saturate(1.2);
+    border-bottom: 1px solid rgba(184, 148, 63, 0.12);
+  }
+
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+  }
+
+  .nav-wordmark {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text);
+    text-decoration: none;
+    transition: opacity 0.3s;
+  }
+
+  .nav-wordmark:hover { opacity: 0.8; }
+
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: var(--space-lg);
+  }
+
+  .nav-links a {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  /* Page Header */
+  .page-header {
+    padding: var(--space-3xl) var(--space-lg) var(--space-2xl);
+    text-align: center;
+    border-bottom: 1px solid rgba(184, 173, 148, 0.06);
+  }
+
+  .page-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    margin-bottom: var(--space-md);
+  }
+
+  .page-subtitle {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--muted);
+  }
+
+  /* Content */
+  .content {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: var(--space-3xl) var(--space-lg);
+  }
+
+  .content h2 {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: var(--space-md);
+    margin-top: var(--space-2xl);
+  }
+
+  .content h2:first-child {
+    margin-top: 0;
+  }
+
+  .content p {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--text);
+    margin-bottom: var(--space-lg);
+  }
+
+  .content p.lead {
+    font-size: 1.15rem;
+    color: var(--muted);
+    line-height: 1.75;
+  }
+
+  .content a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(184, 148, 63, 0.3);
+    transition: border-color 0.2s;
+  }
+
+  .content a:hover {
+    border-bottom-color: var(--accent);
+  }
+
+  .divider {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    border: none;
+    margin: var(--space-2xl) auto;
+    opacity: 0.5;
+  }
+
+  /* Footer */
+  .site-footer {
+    border-top: 1px solid rgba(184, 173, 148, 0.06);
+    padding: var(--space-xl) var(--space-lg);
+    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .footer-wordmark {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(184, 173, 148, 0.5);
+    margin-bottom: var(--space-sm);
+  }
+
+  .footer-legal {
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    color: rgba(184, 173, 148, 0.25);
+    letter-spacing: 0.06em;
+  }
+</style>
+</head>
+<body>
+
+  <div class="aurora-bg"></div>
+  <div class="grain-overlay"></div>
+
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-wordmark">The Arcadia</a>
+      <ul class="nav-links">
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="page-header">
+    <h1 class="page-title">About</h1>
+    <p class="page-subtitle">Video Games & Interactive Media</p>
+  </header>
+
+  <main class="content">
+    <p class="lead">The Arcadia is a media platform for video games and interactive culture — built on the belief that games are an authentic art form deserving of serious attention.</p>
+
+    <h2>A Different Lane</h2>
+    <p>Film has art house cinema. Music has independent labels. Literature has small presses that care about craft over commerce. Video games deserve the same — a space where the medium is treated with the weight it has earned, not reduced to product cycles and hype.</p>
+    <p>We cover games, digital art, and the culture surrounding them. Not as entertainment news, but as culture worth examining.</p>
+
+    <hr class="divider">
+
+    <h2>For Those Who Play Differently</h2>
+    <p>There's a growing audience of people who play games seriously but don't identify with the traditional "gamer" label. Professionals, creatives, people with lives outside their hobby — who appreciate interactive media the way others appreciate film or literature.</p>
+    <p>The Arcadia exists for them. No stigma. No subculture gatekeeping. Just the work, treated with respect.</p>
+
+    <hr class="divider">
+
+    <h2>Submissions</h2>
+    <p>We publish clips and moments from our community. If you capture something worth sharing — a perfect play, a rare glitch, a beautiful frame — you can <a href="brand-testbed.html#submit">submit it through our Discord bot</a>.</p>
+    <p>We handle the editing, captioning, and presentation. You maintain ownership of your work, get credited however you choose, and can be rewarded for standout submissions. Your content lives on our channels, but it's still yours.</p>
+
+    <hr class="divider">
+
+    <h2>What We're Building</h2>
+    <p>The Arcadia is more than a publication. It's a platform — starting with submissions, expanding into editorial coverage, community tools, and more. The bot is just the beginning.</p>
+    <p>We're building a home for interactive media that doesn't exist yet. A place where games are treated like the art form they've always been.</p>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-wordmark">The Arcadia</div>
+    <div class="footer-legal">MMXXVI</div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Arcadia</title>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* ───────────────────────────────────────────────
+     DESIGN TOKENS
+     ─────────────────────────────────────────────── */
+  :root {
+    --bg0: #040806;
+    --bg1: #0a120e;
+    --panel: rgba(16, 30, 20, 0.6);
+    --panel-solid: #101e14;
+    --text: #f2efe6;
+    --muted: #b8ad94;
+    --accent: #b8943f;
+    --accent2: #d4b86a;
+
+    /* Typography */
+    --font-display: 'Libre Bodoni', Georgia, 'Times New Roman', serif;
+    --font-body: 'Instrument Sans', -apple-system, 'Segoe UI', Helvetica, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Consolas', monospace;
+
+    /* Spacing */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 2rem;
+    --space-xl: 3rem;
+    --space-2xl: 5rem;
+    --space-3xl: 8rem;
+
+    /* Measure (line-length) */
+    --measure: 38em;
+    --measure-wide: 52em;
+  }
+
+  /* ───────────────────────────────────────────────
+     RESET & BASE
+     ─────────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-body);
+    font-weight: 400;
+    color: var(--text);
+    background: var(--bg0);
+    line-height: 1.8;
+    letter-spacing: 0.005em;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--bg0);
+  }
+
+  /* ───────────────────────────────────────────────
+     AURORA BACKGROUND
+     ─────────────────────────────────────────────── */
+  .aurora-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background: var(--bg0);
+    overflow: hidden;
+  }
+
+  .aurora-bg::before,
+  .aurora-bg::after {
+    content: '';
+    position: absolute;
+    width: 150%;
+    height: 150%;
+    top: -25%;
+    left: -25%;
+    background:
+      radial-gradient(ellipse 80% 50% at 20% 40%, rgba(16, 50, 30, 0.4) 0%, transparent 50%),
+      radial-gradient(ellipse 60% 40% at 80% 20%, rgba(184, 148, 63, 0.08) 0%, transparent 40%),
+      radial-gradient(ellipse 50% 60% at 60% 80%, rgba(10, 40, 25, 0.5) 0%, transparent 50%);
+    animation: aurora 25s ease-in-out infinite alternate;
+  }
+
+  .aurora-bg::after {
+    background:
+      radial-gradient(ellipse 70% 50% at 70% 60%, rgba(20, 60, 35, 0.35) 0%, transparent 50%),
+      radial-gradient(ellipse 50% 40% at 30% 70%, rgba(184, 148, 63, 0.06) 0%, transparent 40%);
+    animation: aurora 30s ease-in-out infinite alternate-reverse;
+    animation-delay: -5s;
+  }
+
+  @keyframes aurora {
+    0% {
+      transform: translate(0, 0) rotate(0deg) scale(1);
+    }
+    33% {
+      transform: translate(2%, -3%) rotate(1deg) scale(1.02);
+    }
+    66% {
+      transform: translate(-2%, 2%) rotate(-1deg) scale(0.98);
+    }
+    100% {
+      transform: translate(1%, -1%) rotate(0.5deg) scale(1.01);
+    }
+  }
+
+  /* ───────────────────────────────────────────────
+     FILM GRAIN OVERLAY
+     ─────────────────────────────────────────────── */
+  .grain-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+  }
+
+  /* ───────────────────────────────────────────────
+     NAVIGATION (Glassmorphism)
+     ─────────────────────────────────────────────── */
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(4, 8, 6, 0.7);
+    backdrop-filter: blur(20px) saturate(1.2);
+    -webkit-backdrop-filter: blur(20px) saturate(1.2);
+    border-bottom: 1px solid rgba(184, 148, 63, 0.12);
+  }
+
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+  }
+
+  .nav-wordmark {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text);
+    text-decoration: none;
+    transition: opacity 0.3s;
+  }
+
+  .nav-wordmark:hover {
+    opacity: 0.8;
+  }
+
+  .nav-links {
+    list-style: none;
+    display: flex;
+    gap: var(--space-lg);
+  }
+
+  .nav-links a {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  /* ───────────────────────────────────────────────
+     HERO
+     ─────────────────────────────────────────────── */
+  .hero {
+    min-height: calc(100vh - 60px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: var(--space-3xl) var(--space-lg);
+    position: relative;
+  }
+
+  .hero-wordmark {
+    font-family: var(--font-display);
+    font-size: clamp(3.2rem, 9vw, 6rem);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: var(--space-lg);
+    color: var(--text);
+  }
+
+  .hero-rule {
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    border: none;
+    margin: var(--space-md) auto var(--space-lg);
+    opacity: 0.6;
+  }
+
+  .hero-tagline {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--muted);
+    max-width: 26em;
+    margin-bottom: var(--space-2xl);
+  }
+
+  .hero-cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  /* ───────────────────────────────────────────────
+     BUTTONS
+     ─────────────────────────────────────────────── */
+  .btn {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 4px;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg0);
+    padding: 16px 40px;
+    font-weight: 600;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(184, 148, 63, 0.4);
+  }
+
+  .btn-primary:hover::before {
+    opacity: 1;
+  }
+
+  .btn-text {
+    background: none;
+    color: var(--muted);
+    padding: 10px 0;
+    letter-spacing: 0.1em;
+    font-size: 0.7rem;
+  }
+
+  .btn-text:hover {
+    color: var(--text);
+  }
+
+  /* ───────────────────────────────────────────────
+     SECONDARY HERO (Product/Tool)
+     ─────────────────────────────────────────────── */
+  .secondary-hero {
+    padding: var(--space-3xl) var(--space-lg);
+    text-align: center;
+    border-top: 1px solid rgba(184, 173, 148, 0.06);
+  }
+
+  .secondary-hero-inner {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .secondary-hero-label {
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: var(--space-lg);
+  }
+
+  .secondary-hero-headline {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    margin-bottom: var(--space-md);
+  }
+
+  .secondary-hero-sub {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--muted);
+    line-height: 1.75;
+    max-width: 32em;
+    margin: 0 auto var(--space-xl);
+  }
+
+  /* ───────────────────────────────────────────────
+     VALUE PROPS (Glass Cards)
+     ─────────────────────────────────────────────── */
+  .value-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--space-2xl) var(--space-lg) var(--space-3xl);
+  }
+
+  .value-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-lg);
+  }
+
+  @media (max-width: 800px) {
+    .value-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+    }
+  }
+
+  .value-item {
+    text-align: center;
+    padding: var(--space-xl) var(--space-lg);
+    background: var(--panel);
+    border: 1px solid rgba(184, 148, 63, 0.08);
+    border-radius: 8px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .value-item:hover {
+    border-color: rgba(184, 148, 63, 0.2);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  .value-number {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--accent);
+    margin-bottom: var(--space-md);
+    letter-spacing: 0.15em;
+  }
+
+  .value-title {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--text);
+    margin-bottom: var(--space-sm);
+    line-height: 1.25;
+    letter-spacing: 0.01em;
+  }
+
+  .value-desc {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 400;
+    line-height: 1.75;
+    color: var(--muted);
+  }
+
+  /* ───────────────────────────────────────────────
+     HOW IT WORKS
+     ─────────────────────────────────────────────── */
+  .how-section {
+    background: rgba(10, 18, 14, 0.5);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: var(--space-3xl) var(--space-lg);
+    border-top: 1px solid rgba(184, 173, 148, 0.05);
+    border-bottom: 1px solid rgba(184, 173, 148, 0.05);
+  }
+
+  .how-inner {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .how-label {
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-align: center;
+    margin-bottom: var(--space-lg);
+  }
+
+  .how-headline {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 400;
+    color: var(--text);
+    text-align: center;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
+    margin-bottom: var(--space-2xl);
+  }
+
+  .how-steps {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: var(--space-lg);
+    align-items: start;
+  }
+
+  @media (max-width: 600px) {
+    .step {
+      grid-template-columns: 1fr;
+      gap: var(--space-sm);
+    }
+  }
+
+  .step-num {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--accent);
+    line-height: 1;
+    opacity: 0.8;
+  }
+
+  .step-content h3 {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: var(--space-xs);
+    letter-spacing: 0.02em;
+  }
+
+  .step-content p {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 400;
+    line-height: 1.75;
+    color: var(--muted);
+  }
+
+  /* ───────────────────────────────────────────────
+     CTA SECTION
+     ─────────────────────────────────────────────── */
+  .cta-section {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--space-3xl) var(--space-lg);
+    text-align: center;
+  }
+
+  .cta-headline {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.25;
+    letter-spacing: 0.01em;
+    margin-bottom: var(--space-md);
+  }
+
+  .cta-sub {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-bottom: var(--space-xl);
+    max-width: 30em;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.75;
+  }
+
+  /* ───────────────────────────────────────────────
+     FOOTER
+     ─────────────────────────────────────────────── */
+  .site-footer {
+    border-top: 1px solid rgba(184, 173, 148, 0.06);
+    padding: var(--space-xl) var(--space-lg);
+    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .footer-wordmark {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(184, 173, 148, 0.5);
+    margin-bottom: var(--space-sm);
+  }
+
+  .footer-legal {
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    color: rgba(184, 173, 148, 0.25);
+    letter-spacing: 0.06em;
+  }
+
+  /* ───────────────────────────────────────────────
+     SCROLL ANIMATIONS
+     ─────────────────────────────────────────────── */
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Stagger delays */
+  .animate-on-scroll:nth-child(1) { transition-delay: 0s; }
+  .animate-on-scroll:nth-child(2) { transition-delay: 0.1s; }
+  .animate-on-scroll:nth-child(3) { transition-delay: 0.2s; }
+  .animate-on-scroll:nth-child(4) { transition-delay: 0.3s; }
+
+  /* Hero elements animate on load */
+  .hero .animate-on-load {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  .hero .animate-on-load:nth-child(1) { animation-delay: 0.2s; }
+  .hero .animate-on-load:nth-child(2) { animation-delay: 0.4s; }
+  .hero .animate-on-load:nth-child(3) { animation-delay: 0.6s; }
+  .hero .animate-on-load:nth-child(4) { animation-delay: 0.8s; }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+</head>
+<body>
+
+  <!-- Aurora Background -->
+  <div class="aurora-bg"></div>
+
+  <!-- Film Grain Overlay -->
+  <div class="grain-overlay"></div>
+
+  <!-- NAV -->
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-wordmark">The Arcadia</a>
+      <ul class="nav-links">
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO: Brand Identity -->
+  <section class="hero">
+    <h1 class="hero-wordmark animate-on-load">The Arcadia</h1>
+    <hr class="hero-rule animate-on-load">
+    <p class="hero-tagline animate-on-load">Video Games & Interactive Media</p>
+    <div class="hero-cta animate-on-load">
+      <a href="#submit" class="btn btn-text">Submit your clips</a>
+    </div>
+  </section>
+
+  <!-- SECONDARY HERO: Upload Tool -->
+  <section class="secondary-hero" id="submit">
+    <div class="secondary-hero-inner">
+      <div class="secondary-hero-label animate-on-scroll">Submissions</div>
+      <h2 class="secondary-hero-headline animate-on-scroll">Your moments deserve a stage.</h2>
+      <p class="secondary-hero-sub animate-on-scroll">DM our bot on Discord. We caption it, edit it, and publish it to our channels. You maintain ownership, get credited, and can be rewarded.</p>
+      <div class="animate-on-scroll">
+        <a href="#" class="btn btn-primary">Message the Bot</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUE PROPS -->
+  <section class="value-section">
+    <div class="value-grid">
+      <div class="value-item animate-on-scroll">
+        <div class="value-number">I</div>
+        <h2 class="value-title">We Handle the Edit</h2>
+        <p class="value-desc">Submit your clip. We caption it, time it, and present it properly. You just send the file.</p>
+      </div>
+      <div class="value-item animate-on-scroll">
+        <div class="value-number">II</div>
+        <h2 class="value-title">You Keep Ownership</h2>
+        <p class="value-desc">It publishes to our channels, but the work is yours. Credited however you want — or stay anonymous.</p>
+      </div>
+      <div class="value-item animate-on-scroll">
+        <div class="value-number">III</div>
+        <h2 class="value-title">Get Rewarded</h2>
+        <p class="value-desc">Your content, your credit. Top submissions can earn recognition and rewards through the platform.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-section" id="how">
+    <div class="how-inner">
+      <div class="how-label animate-on-scroll">How It Works</div>
+      <h2 class="how-headline animate-on-scroll">Two ways to submit.</h2>
+      <div class="how-steps">
+        <div class="step animate-on-scroll">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h3>DM the bot directly</h3>
+            <p>Send your clip straight to The Arcadia bot on Discord. Add context if you want, or just drop the file.</p>
+          </div>
+        </div>
+        <div class="step animate-on-scroll">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h3>Add the bot to your server</h3>
+            <p>Link the bot to your community. Members can submit through a dedicated channel — easy distribution.</p>
+          </div>
+        </div>
+        <div class="step animate-on-scroll">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h3>We review, you get published</h3>
+            <p>Our team watches everything. If it fits, we edit and schedule it. You stay in the loop on status.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2 class="cta-headline animate-on-scroll">Ready when you are.</h2>
+    <p class="cta-sub animate-on-scroll">Your clip. Your credit. Our platform.</p>
+    <div class="animate-on-scroll">
+      <a href="#" class="btn btn-primary">Message the Bot</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-wordmark">The Arcadia</div>
+    <div class="footer-legal">MMXXVI</div>
+  </footer>
+
+  <!-- Scroll Animation Script -->
+  <script>
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px 0px -80px 0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.animate-on-scroll').forEach(el => {
+      observer.observe(el);
+    });
+  </script>
+
+</body>
+</html>
